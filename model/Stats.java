@@ -4,6 +4,7 @@ import java.util.Random;
 
 import model.exceptions.InvalidStatAmountException;
 import model.exceptions.InvalidStatRangeException;
+import model.exceptions.InvalidStatSumException;
 import model.exceptions.StatException;
 
 public class Stats {
@@ -17,7 +18,7 @@ public class Stats {
 		}
 		
 		for (int stat: statArray) {
-			if (stat > STAT_MAX) {
+			if (stat > STAT_MAX || stat < 0) {
 				throw new InvalidStatRangeException();
 			}
 		}
@@ -28,15 +29,29 @@ public class Stats {
 		this.spatk = statArray[3];
 		this.spdef = statArray[4];
 		this.speed = statArray[5];
+		
+		if (getTotal() != STAT_SUM) {
+			throw new InvalidStatSumException();
+		}
 	}
 	
-	public Stats(int hp, int atk, int def, int spatk, int spdef, int speed) {
+	public Stats(int hp, int atk, int def, int spatk, int spdef, int speed) throws StatException {
+		for (int stat: new int[]{hp, atk, def, spatk, spdef, speed}) {
+			if (stat > STAT_MAX || stat < 0) {
+				throw new InvalidStatRangeException();
+			}
+		}
+		
 		this.hp = hp;
 		this.atk = atk;
 		this.def = def;
 		this.spatk = spatk;
 		this.spdef = spdef;
 		this.speed = speed;
+		
+		if (getTotal() != STAT_SUM) {
+			throw new InvalidStatSumException();
+		}
 	}
 	
 	public int hp;
