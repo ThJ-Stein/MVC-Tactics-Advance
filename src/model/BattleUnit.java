@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Arrays;
+
 import model.exceptions.StatException;
 
 public class BattleUnit {
@@ -17,8 +19,17 @@ public class BattleUnit {
 		xPos = x;
 		yPos = y;
 	}
+	
+	public Unit getUnit() {
+		return unit;
+	}
 
 	
+	@Override
+	public String toString() {
+		return "BattleUnit [unit=" + unit + ", xPos=" + xPos + ", yPos=" + yPos + "]";
+	}
+
 	public static BattleUnit parseBattleUnit(String data) {
 		Stats stats = null;
 		int x = -1;
@@ -38,12 +49,11 @@ public class BattleUnit {
 					
 					try {
 						for (int j = 0; j < statStrings.length; j++) {
-							statArray[i] = Integer.parseInt(statStrings[i]);
+							statArray[j] = Integer.parseInt(statStrings[j]);
 						}
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
-
 					
 					try {
 						stats = new Stats(statArray);
