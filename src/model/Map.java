@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Map {
@@ -39,6 +40,22 @@ public class Map {
 		return tiles[0].length;
 	}
 	
+	public String getStringRepresentation() {
+		String mapString = "\n";
+		
+		for (int y = 0; y < getHeight(); y++) {
+			for (int x = 0; x < getWidth(); x++) {
+				int tile = getTile(x, y).getHeight();
+				mapString += (tile > -1) ? tile : "_";
+				if (x + 1 < getWidth()) {
+					mapString += " ";
+				}
+			}
+			mapString += "\n";
+		}
+		return mapString;
+	}
+
 	/* Reads a file and builds a map instance from it.
 	 * Requires the path given to be a valid path.
 	 */
