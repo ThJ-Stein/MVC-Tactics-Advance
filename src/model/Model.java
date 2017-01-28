@@ -18,4 +18,8 @@ public class Model {
 	public void startBattle(String path) throws IOException {
 		this.activeBattle = Battle.loadBattle(path);
 	}
+	
+	public Battle getBattle() {
+		return activeBattle;
+	}
 }
