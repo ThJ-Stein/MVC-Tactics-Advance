@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -11,7 +13,7 @@ import javax.swing.JTextField;
 
 import controller.Controller;
 
-public class View extends JFrame implements Runnable {
+public class View extends JFrame implements Runnable, KeyListener {
 	/**
 	 * 
 	 */
@@ -41,9 +43,18 @@ public class View extends JFrame implements Runnable {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		//setSize(new Dimension(height, width));
-		pack();
-		setVisible(true);
+		
+		
+		addKeyListener(this);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
+        
+        //setSize(new Dimension(height, width));
+      	pack();
+      	setVisible(true);
+      	
+      	//debug code
+      	getController().addCommand("enterBattle testbattle");
 	}
 	
 	public void addCanvas() {
@@ -92,5 +103,34 @@ public class View extends JFrame implements Runnable {
 
 	public void setController(Controller controller) {
 		this.controller = controller;
+	}
+
+	@Override
+	public void keyPressed(KeyEvent event) {
+		switch (event.getKeyCode()) {
+		case 37:
+			getController().addCommand("press left");
+			break;
+		case 38:
+			getController().addCommand("press up");
+			break;
+		case 39:
+			getController().addCommand("press right");
+			break;
+		case 40:
+			getController().addCommand("press down");
+			break;
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent event) {
+		
 	}
 }

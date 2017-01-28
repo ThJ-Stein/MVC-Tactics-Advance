@@ -10,11 +10,11 @@ import java.io.IOException;
 import model.Map;
 
 public class MapPainter implements Painter {
-	private Point origin = new Point(250, 200);
+	private Point origin = new Point(0, 0);
 	
-	public static int TILE_HEIGHT = 30;
-	public static int TILE_WIDTH = 50;
-	public static int TILE_Z = 10;
+	public static int TILE_HEIGHT = 50;
+	public static int TILE_WIDTH = 80;
+	public static int TILE_Z = 15;
 	
 	private double scale = 1;
 
@@ -22,6 +22,7 @@ public class MapPainter implements Painter {
 
 	public MapPainter(Map map) {
 		this.map = map;
+		origin.setLocation(250, 200);
 	}
 
 	@Override
@@ -76,8 +77,8 @@ public class MapPainter implements Painter {
 			g.setColor(Color.CYAN);
 			g.fill(rightSide);
 			
-			leftSide.translate(0, TILE_Z);
-			rightSide.translate(0, TILE_Z);
+			leftSide.translate(0, (int) (TILE_Z*scale));
+			rightSide.translate(0, (int) (TILE_Z*scale));
 		}
 		
 		g.setColor(Color.DARK_GRAY);
@@ -87,11 +88,19 @@ public class MapPainter implements Painter {
 	private Point translate(int x, int y, int z) {
 		Point trans = new Point(origin);
 		
-		trans.translate(x*TILE_WIDTH/2, x*TILE_HEIGHT/2);
-		trans.translate(-y*TILE_WIDTH/2, y*TILE_HEIGHT/2);
-		trans.translate(0, -z*TILE_Z);
+		double dx = (x - y) * scale * TILE_WIDTH / 2;
+		double dy = (x + y) * scale * TILE_HEIGHT / 2 - z*scale*TILE_Z;
+		
+		trans.translate((int) dx, (int) dy);
 		
 		return trans;
 	}
 
+	public void moveOrigin(int x, int y) {
+		origin.translate(x, y);
+	}
+	
+	public void setScale(double scale) {
+		this.scale = scale;
+	}
 }
