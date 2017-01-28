@@ -32,12 +32,17 @@ public class BattleController extends Controller {
 		model.startBattle(path);
 	}
 	
-	public void connectView() {
+	private void connectView() {
 		mapPainter = new MapPainter(model.getBattle().getMap());
 		view.getPainters().add(mapPainter);
 	}
 	
-	public void disconnectView() {
+	private void disconnectView() {
 		view.getPainters().remove(mapPainter);
+	}
+
+	@Override
+	public void init() {
+		connectView();
 	}
 }

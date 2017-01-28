@@ -29,6 +29,8 @@ public abstract class Controller implements Runnable {
 	
 	protected abstract void handleCommand(String[] args);
 	
+	public abstract void init();
+	
 	@Override
 	public void run() {
 		running = true;
@@ -63,6 +65,7 @@ public abstract class Controller implements Runnable {
 	protected void setChild(Controller controller) {
 		childController = controller;
 		childController.setView(view);
+		childController.init();
 	}
 
 	public synchronized void addCommand(String command) {
@@ -97,6 +100,4 @@ public abstract class Controller implements Runnable {
 	public void setView(View view) {
 		this.view = view;
 	}
-	
-	
 }

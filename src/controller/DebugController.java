@@ -27,10 +27,15 @@ public class DebugController extends Controller {
 		try {
 			BattleController controller = new BattleController(model, path);
 			setChild(controller);
-			controller.connectView();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
 	}
 }
