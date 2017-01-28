@@ -8,6 +8,8 @@ import java.nio.file.NotLinkException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import view.Painter;
+
 public class Battle {
 	public static final String FOLDER = "resources/battles/";
 	
@@ -72,5 +74,9 @@ public class Battle {
 		
 		mapReader.close();
 		return new Battle(map, allowedUnits, enemies);
+	}
+
+	public Map getMap() {
+		return map;
 	}
 }
