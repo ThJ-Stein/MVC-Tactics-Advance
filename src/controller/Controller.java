@@ -4,15 +4,21 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import model.Model;
+
 public abstract class Controller implements Runnable {
 	private LinkedBlockingQueue<String> commandQueue;
+	
+	protected Model model;
 	
 	private Controller childController;
 	
 	private boolean running;
 	
-	public Controller() {
+	public Controller(Model model) {
 		commandQueue = new LinkedBlockingQueue<String>();
+		
+		this.model = model;
 		
 		childController = null;
 		

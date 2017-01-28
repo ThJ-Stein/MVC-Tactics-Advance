@@ -10,9 +10,10 @@ public class App {
 	private Thread viewThread;
 
 	public App() {
-		Controller controller = new DebugController();
-		View view = new View(controller);
 		Model model = new Model();
+		Controller controller = new DebugController(model);
+		View view = new View(controller);
+		
 		
 		controllerThread = new Thread(controller);
 		viewThread = new Thread(view);
