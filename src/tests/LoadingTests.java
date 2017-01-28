@@ -5,13 +5,13 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import model.BattleUnit;
 import model.Map;
 
 public class LoadingTests {
 	@Test
 	public void testMapLoad() {
-		String path = "resources/testmap";
-		assert(new File(path)).isFile();
+		String path = "testmap";
 		
 		Map map = null;
 		
@@ -23,5 +23,16 @@ public class LoadingTests {
 		}
 		
 		System.out.println(map.getTile(2, 2).toString());
+	}
+	
+	@Test
+	public void testUnitParse() {
+		String unitString = "";
+		
+		unitString = "stats=random x=2 y=3";
+		System.out.println(BattleUnit.parseBattleUnit(unitString));
+		
+		unitString = "stats=50,50,50,50,50,50 x=2 y=3";
+		System.out.println(BattleUnit.parseBattleUnit(unitString));
 	}
 }
