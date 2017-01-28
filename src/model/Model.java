@@ -15,7 +15,7 @@ public class Model {
 		activeBattle = null;
 	}
 	
-	public void startBattle(String mapName) throws IOException {
-		this.activeBattle = new Battle(mapName);
+	public void startBattle(String path) throws IOException {
+		this.activeBattle = Battle.loadBattle(path);
 	}
 }
