@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -23,6 +24,8 @@ public class View extends JFrame implements Runnable {
 	private int width;
 	
 	private Controller controller;
+
+	private ViewCanvas canvas;
 	
 	public View() {
 		height = DEFAULT_HEIGHT;
@@ -44,7 +47,7 @@ public class View extends JFrame implements Runnable {
 	}
 	
 	public void addCanvas() {
-		ViewCanvas canvas = new ViewCanvas();
+		canvas = new ViewCanvas();
 		canvas.init();
 		add(canvas);
 	}
@@ -63,13 +66,23 @@ public class View extends JFrame implements Runnable {
 			}
 		});
 	}
+	
+	public ArrayList<Painter> getPainters() {
+		return canvas.getPainters();
+	}
 
 	@Override
 	public void run() {
 		init();
 		
 		while (true) {
-			
+			canvas.repaint();
+			try {
+				Thread.sleep(16);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
