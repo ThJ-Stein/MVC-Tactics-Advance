@@ -7,10 +7,10 @@ import model.Model;
 public class BattleController extends Controller {
 	
 	
-	public BattleController(Model model, String mapName) throws IOException {
+	public BattleController(Model model, String battleFile) throws IOException {
 		super(model);
 		
-		startBattle(mapName);
+		startBattle(battleFile);
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class BattleController extends Controller {
 		}
 	}
 	
-	private void startBattle(String mapName) throws IOException {
-		model.startBattle(mapName);
+	private void startBattle(String path) throws IOException {
+		model.startBattle(path);
 	}
 }

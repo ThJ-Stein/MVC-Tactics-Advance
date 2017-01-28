@@ -21,10 +21,10 @@ public class DebugController extends Controller {
 		}
 	}
 
-	private void enterBattle(String mapName) {
-		System.out.println(mapName);
+	private void enterBattle(String path) {
+		System.out.println(path);
 		try {
-			setChild(new BattleController(model, mapName));
+			setChild(new BattleController(model, path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
