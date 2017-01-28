@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import model.Map;
 
-public class MapTests {
+public class LoadingTests {
 	@Test
 	public void testMapLoad() {
 		String path = "resources/testmap";
