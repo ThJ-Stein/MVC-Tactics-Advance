@@ -24,11 +24,9 @@ public class View extends JFrame implements Runnable {
 	
 	private Controller controller;
 	
-	public View(Controller controller) {
+	public View() {
 		height = DEFAULT_HEIGHT;
 		width = DEFAULT_WIDTH;
-		
-		this.controller = controller;
 	}
 	
 	public void init() {
@@ -59,7 +57,7 @@ public class View extends JFrame implements Runnable {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (!event.getActionCommand().equals("")) {
-					controller.addCommand(event.getActionCommand());
+					getController().addCommand(event.getActionCommand());
 				}
 				((JTextField) event.getSource()).setText("");
 			}
@@ -73,5 +71,13 @@ public class View extends JFrame implements Runnable {
 		while (true) {
 			
 		}
+	}
+
+	public Controller getController() {
+		return controller;
+	}
+
+	public void setController(Controller controller) {
+		this.controller = controller;
 	}
 }

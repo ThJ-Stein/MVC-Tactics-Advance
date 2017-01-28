@@ -12,7 +12,10 @@ public class App {
 	public App() {
 		Model model = new Model();
 		Controller controller = new DebugController(model);
-		View view = new View(controller);
+		View view = new View();
+		
+		controller.setView(view);
+		view.setController(controller);
 		
 		
 		controllerThread = new Thread(controller);

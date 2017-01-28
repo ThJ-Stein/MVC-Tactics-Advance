@@ -5,11 +5,13 @@ import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import model.Model;
+import view.View;
 
 public abstract class Controller implements Runnable {
 	private LinkedBlockingQueue<String> commandQueue;
 	
 	protected Model model;
+	protected View view;
 	
 	private Controller childController;
 	
@@ -60,6 +62,7 @@ public abstract class Controller implements Runnable {
 
 	protected void setChild(Controller controller) {
 		childController = controller;
+		childController.setView(view);
 	}
 
 	public synchronized void addCommand(String command) {
@@ -85,6 +88,14 @@ public abstract class Controller implements Runnable {
 	protected void print(String toPrint) {
 		System.out.print(this.getClass() + ": ");
 		System.out.println(toPrint);
+	}
+
+	public View getView() {
+		return view;
+	}
+
+	public void setView(View view) {
+		this.view = view;
 	}
 	
 	
