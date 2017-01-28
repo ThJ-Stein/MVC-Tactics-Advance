@@ -11,7 +11,7 @@ public class Map {
 	private Tile[][] tiles = null;
 	private List<BattleUnit> units = null;
 	
-	public static String FOLDER = "resources/";
+	public static String FOLDER = "resources/maps/";
 	
 	public Map(int width, int height) {
 		tiles = new Tile[height][width];
