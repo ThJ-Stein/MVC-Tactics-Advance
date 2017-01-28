@@ -11,6 +11,8 @@ public class Map {
 	private Tile[][] tiles = null;
 	private List<BattleUnit> units = null;
 	
+	public static String FOLDER = "resources/";
+	
 	public Map(int width, int height) {
 		tiles = new Tile[height][width];
 		units = new ArrayList<BattleUnit>();
@@ -40,7 +42,9 @@ public class Map {
 	/* Reads a file and builds a map instance from it.
 	 * Requires the path given to be a valid path.
 	 */
-	public static Map loadMap(String path) throws IOException {
+	public static Map loadMap(String mapName) throws IOException {
+		String path = FOLDER + mapName;
+		
 		BufferedReader mapReader = new BufferedReader(new FileReader(path));
 		
 		List<String[]> lines = new ArrayList<String[]>();
