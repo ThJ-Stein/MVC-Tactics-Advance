@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 
 import model.Model;
+import view.MapPainter;
 
 public class DebugController extends Controller {
 
@@ -24,7 +25,9 @@ public class DebugController extends Controller {
 	private void enterBattle(String path) {
 		System.out.println(path);
 		try {
-			setChild(new BattleController(model, path));
+			BattleController controller = new BattleController(model, path);
+			setChild(controller);
+			controller.connectView();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
