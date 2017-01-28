@@ -38,6 +38,8 @@ public class View extends JFrame implements Runnable {
 		addCanvas();
 		addInputField();
 		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		//setSize(new Dimension(height, width));
 		pack();
 		setVisible(true);
