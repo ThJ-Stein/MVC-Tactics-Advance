@@ -25,6 +25,7 @@ public class Map {
 	
 	public void placeUnit(BattleUnit unit, int x, int y) {
 		unit.setPosition(x, y);
+		getTile(x, y).setUnit(unit);
 		units.add(unit);
 	}
 	

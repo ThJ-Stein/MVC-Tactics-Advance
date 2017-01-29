@@ -23,6 +23,14 @@ public class BattleUnit {
 	public Unit getUnit() {
 		return unit;
 	}
+	
+	public int getX() {
+		return xPos;
+	}
+	
+	public int getY() {
+		return yPos;
+	}
 
 	
 	@Override
