@@ -41,6 +41,14 @@ public class Map {
 		return tiles[0].length;
 	}
 	
+	public boolean isInBounds(int x, int y) {
+		return (x >= 0 && x < getWidth() && y >= 0 && y < getHeight());
+	}
+	
+	public boolean isWalkable(int x, int y) {
+		return (isInBounds(x, y) && getTile(x, y).isWalkable());
+	}
+	
 	public String getStringRepresentation() {
 		String mapString = "\n";
 		

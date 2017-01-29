@@ -14,7 +14,7 @@ public class Tile {
 	}
 	
 	public boolean isWalkable() {
-		return height < 0;
+		return height > 0;
 	}
 	
 	public String toString() {
