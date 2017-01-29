@@ -3,6 +3,7 @@ package tests;
 import org.junit.Before;
 import org.junit.Test;
 
+import model.Job;
 import model.Stats;
 
 public class StatsTest {
@@ -12,12 +13,17 @@ public class StatsTest {
 		
 	}
 	
+//	@Test
+//	public void test() {
+//		for (int i = 0; i < 1; i++) {	
+//			Stats stats = Stats.randomizeStats();
+//			assert(stats.getTotal() == 300);
+//			System.out.println(stats.toString());
+//		}
+//	}
+	
 	@Test
-	public void test() {
-		for (int i = 0; i < 100000; i++) {	
-			Stats stats = Stats.randomizeStats();
-			assert(stats.getTotal() == 300);
-			System.out.println(stats.toString());
-		}
+	public void jobTest() {
+		System.out.println(Stats.randomizeStats(Job.LIBRA));
 	}
 }

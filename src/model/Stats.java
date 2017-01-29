@@ -12,6 +12,13 @@ public class Stats {
 	public static final int STAT_MAX = 100;
 	public static final int STAT_SUM = STAT_COUNT * 50;
 	
+	public int hp;
+	public int atk;
+	public int def;
+	public int spatk;
+	public int spdef;
+	public int speed;
+	
 	public Stats(int[] statArray) throws StatException {
 		if (statArray.length != STAT_COUNT) {
 			throw new InvalidStatAmountException();
@@ -34,7 +41,7 @@ public class Stats {
 			throw new InvalidStatSumException();
 		}
 	}
-	
+
 	public Stats(int hp, int atk, int def, int spatk, int spdef, int speed) throws StatException {
 		for (int stat: new int[]{hp, atk, def, spatk, spdef, speed}) {
 			if (stat > STAT_MAX || stat < 0) {
@@ -53,16 +60,13 @@ public class Stats {
 			throw new InvalidStatSumException();
 		}
 	}
-	
-	public int hp;
-	public int atk;
-	public int def;
-	public int spatk;
-	public int spdef;
-	public int speed;
-	
+
 	public int getTotal() {
 		return hp + atk + def + spatk + spdef + speed;
+	}
+	
+	public int[] asArray() {
+		return new int[]{hp, atk, def, spatk, spdef, speed};
 	}
 	
 	@Override
@@ -117,6 +121,16 @@ public class Stats {
 			}
 			
 		}
+		
+		return stats;
+	}
+	
+	public static Stats randomizeStats(Job job) {
+		Stats stats;
+		
+		do {
+			stats = randomizeStats();
+		} while (!job.validStats(stats));
 		
 		return stats;
 	}
