@@ -21,15 +21,15 @@ public class Tile {
 		return "Tile height: " + height;
 	}
 
-	public BattleUnit getUnit() {
-		return unit;
-	}
-
 	public void setUnit(BattleUnit unit) {
 		this.unit = unit;
 	}
 	
 	public boolean isOccupied() {
 		return unit != null;
+	}
+
+	public BattleUnit getUnit() {
+		return unit;
 	}
 }

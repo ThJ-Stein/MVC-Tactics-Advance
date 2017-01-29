@@ -47,6 +47,10 @@ public class Battle {
 		return state.peek();
 	}
 
+	public Map getMap() {
+		return map;
+	}
+
 	@Override
 	public String toString() {
 		return "Battle [map=" + map.getStringRepresentation() + ", enemies=" + enemies + ", allowedUnits=" + allowedUnits + "]";
@@ -110,9 +114,5 @@ public class Battle {
 		
 		mapReader.close();
 		return new Battle(map, allowedUnits, enemies, positions);
-	}
-
-	public Map getMap() {
-		return map;
 	}
 }

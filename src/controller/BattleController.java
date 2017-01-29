@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import model.Model;
 import view.BattlePainter;
-import view.Painter;
 
 public class BattleController extends Controller {
 	private BattlePainter battlePainter;

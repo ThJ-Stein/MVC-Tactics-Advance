@@ -3,7 +3,6 @@ package controller;
 import java.io.IOException;
 
 import model.Model;
-import view.MapPainter;
 
 public class DebugController extends Controller {
 
