@@ -20,7 +20,7 @@ public class Battle {
 
 	private ArrayList<int[]> positions;
 	
-	private Battle(Map map, int allowedUnits, ArrayList<BattleUnit> enemies, ArrayList<int[]> positions) {
+	private Battle(Map map, int allowedUnits, ArrayList<BattleUnit> enemies, ArrayList<int[]> positions) {		
 		this.map = map;
 		this.allowedUnits = allowedUnits;
 		this.enemies = enemies;
@@ -81,12 +81,15 @@ public class Battle {
 				break;
 				
 			case "positions":
-				String[] data = mapReader.readLine().split(" ");
-				while (data.length > 0) {
+				String s = mapReader.readLine();
+				
+				while (mapReader.ready() && !s.equals("")) {
+					String[] data = mapReader.readLine().split(" ");
 					int[] position = new int[]{
 							Integer.parseInt(data[0]),
 							Integer.parseInt(data[1])};
 					positions.add(position);
+					s = mapReader.readLine();
 				}
 			}
 		}
