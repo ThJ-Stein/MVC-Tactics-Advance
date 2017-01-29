@@ -7,11 +7,14 @@ import java.io.IOException;
 import java.nio.file.NotLinkException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Stack;
 
 import view.Painter;
 
 public class Battle {
 	public static final String FOLDER = "resources/battles/";
+	
+	private Stack<BattleState> state;
 	
 	private Map map;
 	private ArrayList<BattleUnit> enemies;
@@ -25,12 +28,23 @@ public class Battle {
 		this.allowedUnits = allowedUnits;
 		this.enemies = enemies;
 		this.positions = positions;
+		
+		state = new Stack<BattleState>();
 	}
 	
 	public void init() {
 		for (BattleUnit enemy: enemies) {
 			map.placeUnit(enemy, enemy.getX(), enemy.getY());
 		}
+		enterState(BattleState.PLACING_UNITS);
+	}
+	
+	public void enterState(BattleState state) {
+		this.state.push(state);
+	}
+	
+	public BattleState getActiveState() {
+		return state.peek();
 	}
 
 	@Override
