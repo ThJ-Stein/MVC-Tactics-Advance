@@ -80,7 +80,13 @@ public class BattleController extends Controller {
 	}
 	
 	private void moveCursor(int dx, int dy) {
-		if (model.getBattle().getMap().isWalkable(cursorX + dx, cursorY + dy)) {
+		while (model.getBattle().getMap().isInBounds(cursorX+dx, cursorY+dy)
+				&& !model.getBattle().getMap().isWalkable(cursorX + dx, cursorY + dy)) {
+			dx += Integer.signum(dx);
+			dy += Integer.signum(dy);
+		}
+		
+		if (model.getBattle().getMap().isInBounds(cursorX+dx, cursorY+dy)) {
 			cursorX += dx;
 			cursorY += dy;
 			
