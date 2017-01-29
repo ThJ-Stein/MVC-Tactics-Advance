@@ -20,26 +20,31 @@ import model.Map;
 public class MapPainter implements Painter {
 	private Point origin = new Point(0, 0);
 	
-	public static int TILE_HEIGHT = 50;
-	public static int TILE_WIDTH = 80;
-	public static int TILE_Z = 15;
+	public static int TILE_HEIGHT = 24;
+	public static int TILE_WIDTH = 36;
+	public static int TILE_Z = 10;
 	
 	private double scale = 1;
 
 	protected Map map;
 
 	private BufferedImage im;
+	
+	private BufferedImage unitSprite;
+
+	private SpriteSheet blackmage;
 
 	public MapPainter(Map map) {
 		this.map = map;
 		origin.setLocation(250, 200);
 		
-//		try {
-//			im = ImageIO.read(new File("resources/images/battlebackground.jpg"));
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			im = ImageIO.read(new File("resources/images/blackmagespritesheet.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		blackmage = new SpriteSheet(im, 24, 32);
 	}
 
 	@Override
@@ -62,25 +67,31 @@ public class MapPainter implements Painter {
 	}
 
 	private void drawUnit(Graphics2D g, BattleUnit unit, int height) {
-		String s = "@";
+//		String s = "@";
+//		
+//		Font font = new Font("TimesRoman", Font.CENTER_BASELINE, (int) (40*scale));
+//		g.setFont(font);
+//		int charWidth = g.getFontMetrics().stringWidth(s);
+//		
+//		
+//		Point p = translate(unit.getX() + .5, unit.getY() + .5, height);
+//		p.translate(-charWidth / 2, 0);
+//		
+//		Shape shadow = new Ellipse2D.Double(p.getX(), p.getY() - 5, charWidth, 10);
+//		
+//		g.setColor(Color.GRAY);
+//		g.fill(shadow);
+//		
+//		
+//		g.setColor(Color.BLACK);
+//		
+//		g.drawString(s, (int) p.getX(), (int) p.getY() - 5);	
 		
-		Font font = new Font("TimesRoman", Font.CENTER_BASELINE, (int) (40*scale));
-		g.setFont(font);
-		int charWidth = g.getFontMetrics().stringWidth(s);
 		
-		
-		Point p = translate(unit.getX() + .5, unit.getY() + .5, height);
-		p.translate(-charWidth / 2, 0);
-		
-		Shape shadow = new Ellipse2D.Double(p.getX(), p.getY() - 5, charWidth, 10);
-		
-		g.setColor(Color.GRAY);
-		g.fill(shadow);
-		
-		
-		g.setColor(Color.BLACK);
-		
-		g.drawString(s, (int) p.getX(), (int) p.getY() - 5);	
+		Point p = translate(unit.getX()+0.5, unit.getY()+0.5, height);
+		int xPos = (int) p.getX() - blackmage.getWidth()/2;
+		int yPos = (int) p.getY() - blackmage.getHeight();
+		blackmage.draw(g, xPos, yPos, 2, 0);
 	}
 
 	private void drawSquare(Graphics2D g, int x, int y, int z) {

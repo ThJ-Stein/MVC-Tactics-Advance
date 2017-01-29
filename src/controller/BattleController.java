@@ -32,6 +32,9 @@ public class BattleController extends Controller {
 		case "press":
 			handlePress(args[1]);
 			break;
+		case "unitDetails":
+			System.out.println(model.getBattle().getMap().getTile(cursorX, cursorY).getUnit());
+			break;
 		case "scale":
 			battlePainter.setScale(Double.parseDouble(args[1]));
 			break;
