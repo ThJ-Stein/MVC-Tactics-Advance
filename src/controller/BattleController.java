@@ -3,13 +3,14 @@ package controller;
 import java.io.IOException;
 
 import model.Model;
-import view.MapPainter;
+import view.BattlePainter;
 import view.Painter;
 
 public class BattleController extends Controller {
+	private BattlePainter battlePainter;
 	
-	
-	private MapPainter mapPainter;
+	private int cursorX;
+	private int cursorY;
 
 	public BattleController(Model model, String battleFile) throws IOException {
 		super(model);
@@ -27,7 +28,7 @@ public class BattleController extends Controller {
 			handlePress(args[1]);
 			break;
 		case "scale":
-			mapPainter.setScale(Double.parseDouble(args[1]));
+			battlePainter.setScale(Double.parseDouble(args[1]));
 			break;
 		case "endBattle":
 			disconnectView();
@@ -39,16 +40,20 @@ public class BattleController extends Controller {
 	private void handlePress(String key) {
 		switch (key) {
 		case "up":
-			mapPainter.moveOrigin(0, 3);
+			//battlePainter.moveOrigin(0, 3);
+			moveCursor(0,-1);
 			break;
 		case "down":
-			mapPainter.moveOrigin(0, -3);
+			//battlePainter.moveOrigin(0, -3);
+			moveCursor(0,1);
 			break;
 		case "left":
-			mapPainter.moveOrigin(3, 0);
+			//battlePainter.moveOrigin(3, 0);
+			moveCursor(-1,0);
 			break;
 		case "right":
-			mapPainter.moveOrigin(-3, 0);
+			//battlePainter.moveOrigin(-3, 0);
+			moveCursor(1,0);
 			break;
 		}
 	}
@@ -58,12 +63,21 @@ public class BattleController extends Controller {
 	}
 	
 	private void connectView() {
-		mapPainter = new MapPainter(model.getBattle().getMap());
-		view.getPainters().add(mapPainter);
+		battlePainter = new BattlePainter(model.getBattle());
+		view.getPainters().add(battlePainter);
 	}
 	
 	private void disconnectView() {
-		view.getPainters().remove(mapPainter);
+		view.getPainters().remove(battlePainter);
+	}
+	
+	private void moveCursor(int dx, int dy) {
+		if (model.getBattle().getMap().isWalkable(cursorX + dx, cursorY + dy)) {
+			cursorX += dx;
+			cursorY += dy;
+			
+			battlePainter.moveCursor(dx, dy);
+		}
 	}
 
 	@Override

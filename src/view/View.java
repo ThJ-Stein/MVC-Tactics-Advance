@@ -118,9 +118,9 @@ public class View extends JFrame implements Runnable, KeyListener {
 	@Override
 	public void run() {
 		init();
-		
+		int frames = 0;
 		while (true) {
-			canvas.repaint();
+			canvas.update(frames++);
 			try {
 				Thread.sleep(16);
 			} catch (InterruptedException e) {

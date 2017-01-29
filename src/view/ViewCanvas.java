@@ -47,6 +47,13 @@ public class ViewCanvas extends JPanel {
 			painter.paint(g2);
 		}
 	}
+	
+	public void update(int frames) {
+		for (Painter painter : painters) {
+			painter.update(frames);
+		}
+		repaint();
+	}
 
 	@Override
 	public Dimension getPreferredSize() {

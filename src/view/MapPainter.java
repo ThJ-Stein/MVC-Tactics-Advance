@@ -3,11 +3,16 @@ package view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import model.BattleUnit;
 import model.Map;
@@ -21,26 +26,41 @@ public class MapPainter implements Painter {
 	
 	private double scale = 1;
 
-	private Map map;
+	protected Map map;
+
+	private BufferedImage im;
 
 	public MapPainter(Map map) {
 		this.map = map;
 		origin.setLocation(250, 200);
+		
+//		try {
+//			im = ImageIO.read(new File("resources/images/battlebackground.jpg"));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	@Override
-	public void paint(Graphics2D g) {		
+	public void paint(Graphics2D g) {
+//		g.drawImage(im, 0, 0, null);
+		
 		for (int x = 0; x < map.getWidth(); x++) {
 			for (int y = 0; y < map.getHeight(); y++) {
-				drawSquare(g, x, y, map.getTile(x, y).getHeight());
-				
-				if (map.getTile(x, y).isOccupied()) {
-					drawUnit(g, map.getTile(x, y).getUnit(), map.getTile(x, y).getHeight());
-				}
+				handleTile(g, x, y);
 			}
 		}
 	}
 	
+	protected void handleTile(Graphics2D g, int x, int y) {
+		drawSquare(g, x, y, map.getTile(x, y).getHeight());
+		
+		if (map.getTile(x, y).isOccupied()) {
+			drawUnit(g, map.getTile(x, y).getUnit(), map.getTile(x, y).getHeight());
+		}
+	}
+
 	private void drawUnit(Graphics2D g, BattleUnit unit, int height) {
 		String s = "@";
 		
@@ -114,7 +134,7 @@ public class MapPainter implements Painter {
 		g.draw(surface);
 	}
 	
-	private Point translate(double x, double y, double z) {
+	protected Point translate(double x, double y, double z) {
 		Point trans = new Point(origin);
 		
 		double dx = (x - y) * scale * TILE_WIDTH / 2;
@@ -131,5 +151,11 @@ public class MapPainter implements Painter {
 	
 	public void setScale(double scale) {
 		this.scale = scale;
+	}
+
+	@Override
+	public void update(int frames) {
+		//
+		
 	}
 }
