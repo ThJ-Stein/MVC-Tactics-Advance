@@ -3,9 +3,9 @@ map testmap
 allowed_units 3
 
 enemies
-stats=random x=3 y=0
-stats=random x=4 y=0
-stats=50,50,50,50,50,50 x=5 y=0
+stats=random x=0 y=0
+stats=random x=1 y=0
+stats=50,50,50,50,50,50 x=2 y=0
 
 positions
 0 8

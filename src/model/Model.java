@@ -17,6 +17,7 @@ public class Model {
 	
 	public void startBattle(String path) throws IOException {
 		this.activeBattle = Battle.loadBattle(path);
+		activeBattle.init();
 	}
 	
 	public Battle getBattle() {
