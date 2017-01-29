@@ -1,5 +1,7 @@
 package tests;
 
+import java.util.IntSummaryStatistics;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,6 +26,11 @@ public class StatsTest {
 	
 	@Test
 	public void jobTest() {
-		System.out.println(Stats.randomizeStats(Job.LIBRA));
+		
+		for (int i = 0; i < 100000; i++) {
+			Stats s = Stats.randomizeStats(Job.SOLDIER);
+			
+		}
+		
 	}
 }

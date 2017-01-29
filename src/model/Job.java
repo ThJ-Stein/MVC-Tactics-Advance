@@ -23,4 +23,23 @@ public enum Job {
 		}
 		return true;
 	}
+	
+	public boolean validStats(int[] stats) {
+		int[] statArray = stats;
+		
+		for (int i = 0; i < statArray.length; i++) {
+			if (!(statArray[i] >= min[i] && statArray[i] <= max[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public int[] getMax() {
+		return max;
+	}
+	
+	public int[] getMin() {
+		return min;
+	}
 }

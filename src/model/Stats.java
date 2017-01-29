@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import model.exceptions.InvalidStatAmountException;
@@ -75,63 +76,57 @@ public class Stats {
 				+ ", speed=" + speed + ", getTotal()=" + getTotal() + "]";
 	}
 	
-	public static Stats randomizeStats() {
-		Stats stats = null;
+	public static Stats randomizeStats(Job job) {
 		boolean found = false;
 		
 		Random r = new Random();
 		
-		while (!found) {
-			double[] doubles = new double[STAT_COUNT];
-			int[] ints = new int[STAT_COUNT];
+		int[] statArray = new int[STAT_COUNT];
+		int sum = 0;
+
+		for (int i = 0; i < STAT_COUNT; i++) {
+			int max = job.getMax()[i];
+			int min = job.getMin()[i];
 			
-			double total = 0;
+			statArray[i] = (max == min) ? min : r.nextInt(max - min) + min;
+			sum += statArray[i];
+		}
+		
+		while (sum < 300) {
+			int index = r.nextInt(STAT_COUNT-1);
 			
-			for (int i = 0; i < STAT_COUNT; i++) {
-				doubles[i] = r.nextDouble();
-				total += doubles[i];
-			}
-			
-			double factor = STAT_SUM / total;
-			
-			int sum = 0;
-			
-			for (int i = 0; i < STAT_COUNT; i++) {
-				double stat = doubles[i] * factor;
-				ints[i] = (int) Math.round(stat);
-				sum += ints[i];
-			}
-	
-			while (sum < STAT_SUM) {
-				ints[r.nextInt(6)]++;
+			statArray[index]++;
+			if (job.validStats(statArray)) {
 				sum++;
+			} else {
+				statArray[index]--;
 			}
+		}
+		
+		while (sum > 300) {
+			int index = r.nextInt(STAT_COUNT-1);
 			
-			while (sum > STAT_SUM) {
-				ints[r.nextInt(6)]--;
+			statArray[index]--;
+			if (job.validStats(statArray)) {
 				sum--;
+			} else {
+				statArray[index]++;
 			}
-			
-			try {
-				stats = new Stats(ints);
-				found = true;
-			} catch (StatException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-			}
-			
+		}
+		
+		Stats stats = null;
+		
+		try {
+			stats = new Stats(statArray);
+		} catch (StatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		return stats;
 	}
 	
-	public static Stats randomizeStats(Job job) {
-		Stats stats;
-		
-		do {
-			stats = randomizeStats();
-		} while (!job.validStats(stats));
-		
-		return stats;
+	public static Stats randomizeStats() {
+		return randomizeStats(Job.MERCHANT);
 	}
 }
