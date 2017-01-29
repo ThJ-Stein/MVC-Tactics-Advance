@@ -40,6 +40,7 @@ public class BattleUnit {
 
 	public static BattleUnit parseBattleUnit(String data) {
 		Stats stats = null;
+		Job job = Job.MERCHANT;
 		int x = -1;
 		int y = -1;
 		
@@ -48,6 +49,10 @@ public class BattleUnit {
 			String[] arg = args[i].split("=");
 			
 			switch (arg[0]) {
+			case "job":
+				job = Job.valueOf(arg[1]);
+				break;
+			
 			case "stats":
 				if (arg[1].equals("random")) {
 					stats = Stats.randomizeStats();
@@ -82,7 +87,13 @@ public class BattleUnit {
 			}
 		}
 		
-		Unit unit = new Unit(stats);
+		Unit unit;
+		if (stats != null) {
+			unit = new Unit(job, stats);
+		} else {
+			unit = new Unit(job);
+		}
+		
 		BattleUnit bUnit = new BattleUnit(unit, x, y);
 		
 		return bUnit;
