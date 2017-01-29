@@ -17,11 +17,20 @@ public class Battle {
 	private ArrayList<BattleUnit> enemies;
 
 	private int allowedUnits;
+
+	private ArrayList<int[]> positions;
 	
-	private Battle(Map map, int allowedUnits, ArrayList<BattleUnit> enemies) {
+	private Battle(Map map, int allowedUnits, ArrayList<BattleUnit> enemies, ArrayList<int[]> positions) {
 		this.map = map;
 		this.allowedUnits = allowedUnits;
 		this.enemies = enemies;
+		this.positions = positions;
+	}
+	
+	public void init() {
+		for (BattleUnit enemy: enemies) {
+			map.placeUnit(enemy, enemy.getX(), enemy.getY());
+		}
 	}
 
 	@Override
@@ -37,6 +46,7 @@ public class Battle {
 		Map map = null;
 		int allowedUnits = -1;
 		ArrayList<BattleUnit> enemies = new ArrayList<BattleUnit>();
+		ArrayList<int[]> positions = new ArrayList<int[]>();
 		
 		while (mapReader.ready()) {
 			
@@ -69,11 +79,20 @@ public class Battle {
 					unitData = mapReader.readLine();
 				}
 				break;
+				
+			case "positions":
+				String[] data = mapReader.readLine().split(" ");
+				while (data.length > 0) {
+					int[] position = new int[]{
+							Integer.parseInt(data[0]),
+							Integer.parseInt(data[1])};
+					positions.add(position);
+				}
 			}
 		}
 		
 		mapReader.close();
-		return new Battle(map, allowedUnits, enemies);
+		return new Battle(map, allowedUnits, enemies, positions);
 	}
 
 	public Map getMap() {
