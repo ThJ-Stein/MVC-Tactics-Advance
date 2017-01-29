@@ -13,6 +13,12 @@ public class DebugController extends Controller {
 	}
 
 	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	protected void handleCommand(String[] args) {
 		switch (args[0]) {
 		case "print":
@@ -31,11 +37,5 @@ public class DebugController extends Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		
 	}
 }

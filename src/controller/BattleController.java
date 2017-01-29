@@ -19,6 +19,11 @@ public class BattleController extends Controller {
 	}
 
 	@Override
+	public void init() {
+		connectView();
+	}
+
+	@Override
 	protected void handleCommand(String[] args) {
 		switch (args[0]) {
 		case "print":
@@ -78,10 +83,5 @@ public class BattleController extends Controller {
 			
 			battlePainter.moveCursor(dx, dy);
 		}
-	}
-
-	@Override
-	public void init() {
-		connectView();
 	}
 }

@@ -8,12 +8,12 @@ import model.Model;
 import view.View;
 
 public abstract class Controller implements Runnable {
-	private LinkedBlockingQueue<String> commandQueue;
-	
-	protected Model model;
 	protected View view;
+	protected Model model;
 	
 	private Controller childController;
+	
+	private LinkedBlockingQueue<String> commandQueue;
 	
 	private boolean running;
 	
@@ -27,9 +27,9 @@ public abstract class Controller implements Runnable {
 		running = true;
 	}
 	
-	protected abstract void handleCommand(String[] args);
-	
 	public abstract void init();
+	
+	protected abstract void handleCommand(String[] args);
 	
 	@Override
 	public void run() {
@@ -54,6 +54,14 @@ public abstract class Controller implements Runnable {
 		}
 	}
 	
+	public View getView() {
+		return view;
+	}
+
+	public void setView(View view) {
+		this.view = view;
+	}
+
 	public boolean isRunning() {
 		return running;
 	}
@@ -91,13 +99,5 @@ public abstract class Controller implements Runnable {
 	protected void print(String toPrint) {
 		System.out.print(this.getClass() + ": ");
 		System.out.println(toPrint);
-	}
-
-	public View getView() {
-		return view;
-	}
-
-	public void setView(View view) {
-		this.view = view;
 	}
 }
