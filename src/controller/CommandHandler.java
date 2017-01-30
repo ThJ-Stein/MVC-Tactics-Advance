@@ -5,6 +5,15 @@ import java.io.IOException;
 public abstract class CommandHandler<T extends Controller> {
 	public abstract void execute(T c, String[] args);
 	
+	public static CommandHandler<Controller> NONE = new CommandHandler<Controller>() {
+
+		@Override
+		public void execute(Controller c, String[] args) {
+			
+		}
+		
+	};
+	
 	public static CommandHandler<Controller> PRINT = new CommandHandler<Controller>() {
 
 		@Override

@@ -1,7 +1,5 @@
 package controller;
 
-import java.io.IOException;
-
 import model.Model;
 
 public class DebugController extends Controller {

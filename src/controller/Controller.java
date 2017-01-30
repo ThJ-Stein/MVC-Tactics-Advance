@@ -16,13 +16,15 @@ public abstract class Controller implements Runnable {
 	
 	private LinkedBlockingQueue<String> commandQueue;
 	
-	private HashMap<String, CommandHandler> commandMap;
+	
+	private HashMap<String, CommandHandler<? extends Controller>> commandMap;
 	
 	private boolean running;
 	
+	
 	public Controller(Model model) {
 		commandQueue = new LinkedBlockingQueue<String>();
-		commandMap = new HashMap<String, CommandHandler>();
+		commandMap = new HashMap<String, CommandHandler<? extends Controller>>();
 		
 		this.model = model;
 		
@@ -35,14 +37,21 @@ public abstract class Controller implements Runnable {
 	
 	public abstract void destroy();
 	
-	protected void addCommandHandler(String command, CommandHandler handler) {
+	protected void addCommandHandler(String command, CommandHandler<? extends Controller> handler) {
+		
 		commandMap.put(command, handler);
 	}
 	
 	protected void executeCommand(String[] args) {
-		
-		CommandHandler handler = commandMap.get(args[0]);
-		if (handler != null) {
+		if (commandMap.containsKey(args[0])) {
+			System.out.println(CommandHandler.NONE.getClass());
+			
+			
+			//A CommandHandler must use a type that extends Controller
+			//That means casting to CommandHandler<Contoller> is always okay
+			@SuppressWarnings("unchecked")
+			CommandHandler<Controller> handler = (CommandHandler<Controller>) commandMap.get(args[0]);
+			
 			handler.execute(this, args);
 		}
 	}
