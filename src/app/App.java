@@ -17,6 +17,8 @@ public class App {
 		controller.setView(view);
 		view.setController(controller);
 		
+		controller.init();
+		
 		
 		controllerThread = new Thread(controller);
 		viewThread = new Thread(view);
