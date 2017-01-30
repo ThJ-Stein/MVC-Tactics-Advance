@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -9,16 +10,19 @@ import view.View;
 
 public abstract class Controller implements Runnable {
 	protected View view;
-	protected Model model;
+	private Model model;
 	
 	private Controller childController;
 	
 	private LinkedBlockingQueue<String> commandQueue;
 	
+	private HashMap<String, CommandHandler> commandMap;
+	
 	private boolean running;
 	
 	public Controller(Model model) {
 		commandQueue = new LinkedBlockingQueue<String>();
+		commandMap = new HashMap<String, CommandHandler>();
 		
 		this.model = model;
 		
@@ -29,7 +33,19 @@ public abstract class Controller implements Runnable {
 	
 	public abstract void init();
 	
-	protected abstract void handleCommand(String[] args);
+	public abstract void destroy();
+	
+	protected void addCommandHandler(String command, CommandHandler handler) {
+		commandMap.put(command, handler);
+	}
+	
+	protected void executeCommand(String[] args) {
+		
+		CommandHandler handler = commandMap.get(args[0]);
+		if (handler != null) {
+			handler.execute(this, args);
+		}
+	}
 	
 	@Override
 	public void run() {
@@ -40,12 +56,13 @@ public abstract class Controller implements Runnable {
 				String[] args = command.split(" ");
 				
 				if (childController == null) {
-					handleCommand(args);
+					executeCommand(args);
 				} else if (childController.isRunning()) {
-					childController.handleCommand(args);
-				} else {
-					childController = null;
-					handleCommand(args);
+					childController.executeCommand(args);
+					if (!childController.isRunning()) {
+						childController.destroy();
+						childController = null;
+					}
 				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -60,6 +77,10 @@ public abstract class Controller implements Runnable {
 
 	public void setView(View view) {
 		this.view = view;
+	}
+	
+	public Model getModel() {
+		return model;
 	}
 
 	public boolean isRunning() {

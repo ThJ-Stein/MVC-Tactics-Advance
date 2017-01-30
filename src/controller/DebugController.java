@@ -15,26 +15,12 @@ public class DebugController extends Controller {
 	public void init() {
 		// TODO Auto-generated method stub
 		
+		addCommandHandler("print", CommandHandler.PRINT);
+		addCommandHandler("enterBattle", CommandHandler.ENTER_BATTLE);
 	}
-
+	
 	@Override
-	protected void handleCommand(String[] args) {
-		switch (args[0]) {
-		case "print":
-			print(args);
-		case "enterBattle":
-			enterBattle(args[1]);
-		}
-	}
-
-	private void enterBattle(String path) {
-		System.out.println(path);
-		try {
-			BattleController controller = new BattleController(model, path);
-			setChild(controller);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void destroy() {
+		
 	}
 }

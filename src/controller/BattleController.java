@@ -20,72 +20,52 @@ public class BattleController extends Controller {
 	@Override
 	public void init() {
 		connectView();
-	}
-
-	@Override
-	protected void handleCommand(String[] args) {
-		switch (args[0]) {
-		case "print":
-			print(args);
-			break;
-		case "press":
-			handlePress(args[1]);
-			break;
-		case "unitDetails":
-			System.out.println(model.getBattle().getMap().getTile(cursorX, cursorY).getUnit());
-			break;
-		case "scale":
-			battlePainter.setScale(Double.parseDouble(args[1]));
-			break;
-		case "endBattle":
-			disconnectView();
-			setRunning(false);
-			break;
-		}
+		
+		addCommandHandler("print", CommandHandler.PRINT);
+		addCommandHandler("press", CommandHandler.MOVE_CURSOR);
+		addCommandHandler("select", CommandHandler.UNIT_DETAILS);
+		addCommandHandler("scale", CommandHandler.SCALE);
+		addCommandHandler("end", CommandHandler.END_BATTLE);
 	}
 	
-	private void handlePress(String key) {
-		switch (key) {
-		case "up":
-			//battlePainter.moveOrigin(0, 3);
-			moveCursor(0,-1);
-			break;
-		case "down":
-			//battlePainter.moveOrigin(0, -3);
-			moveCursor(0,1);
-			break;
-		case "left":
-			//battlePainter.moveOrigin(3, 0);
-			moveCursor(-1,0);
-			break;
-		case "right":
-			//battlePainter.moveOrigin(-3, 0);
-			moveCursor(1,0);
-			break;
-		}
+	@Override
+	public void destroy() {
+		disconnectView();
 	}
 
 	private void startBattle(String path) throws IOException {
-		model.startBattle(path);
+		getModel().startBattle(path);
 	}
 	
 	private void connectView() {
-		battlePainter = new BattlePainter(model.getBattle());
+		battlePainter = new BattlePainter(getModel().getBattle());
 		view.getPainters().add(battlePainter);
 	}
 	
-	private void disconnectView() {
+	protected void disconnectView() {
 		view.getPainters().remove(battlePainter);
 	}
 	
-	private void moveCursor(int dx, int dy) {
-		while (model.getBattle().getMap().isInBounds(cursorX+dx, cursorY+dy)
-				&& !model.getBattle().getMap().isWalkable(cursorX + dx, cursorY + dy)) {
+	protected BattlePainter getBattlePainter() {
+		return battlePainter;
+	}
+	
+	protected int getCursorX() {
+		return cursorX;
+	}
+	
+	protected int getCursorY() {
+		return cursorY;
+	}
+	
+	protected void moveCursor(int dx, int dy) {
+		while (getModel().getBattle().getMap().isInBounds(cursorX+dx, cursorY+dy)
+				&& !getModel().getBattle().getMap().isWalkable(cursorX + dx, cursorY + dy)) {
 			dx += Integer.signum(dx);
 			dy += Integer.signum(dy);
 		}
 		
-		if (model.getBattle().getMap().isInBounds(cursorX+dx, cursorY+dy)) {
+		if (getModel().getBattle().getMap().isInBounds(cursorX+dx, cursorY+dy)) {
 			cursorX += dx;
 			cursorY += dy;
 			
