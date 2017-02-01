@@ -14,17 +14,17 @@ public abstract class Controller implements Runnable {
 	
 	private Controller childController;
 	
-	private LinkedBlockingQueue<String> commandQueue;
+	private LinkedBlockingQueue<Command> commandQueue;
 	
 	
-	private HashMap<String, CommandHandler<? extends Controller>> commandMap;
+	private HashMap<String, CommandHandler> commandMap;
 	
 	private boolean running;
 	
 	
 	public Controller(Model model) {
-		commandQueue = new LinkedBlockingQueue<String>();
-		commandMap = new HashMap<String, CommandHandler<? extends Controller>>();
+		commandQueue = new LinkedBlockingQueue<Command>();
+		commandMap = new HashMap<String, CommandHandler>();
 		
 		this.model = model;
 		
@@ -37,22 +37,22 @@ public abstract class Controller implements Runnable {
 	
 	public abstract void destroy();
 	
-	protected void addCommandHandler(String command, CommandHandler<? extends Controller> handler) {
+	protected void addCommandHandler(String command, CommandHandler handler) {
 		
 		commandMap.put(command, handler);
 	}
 	
-	protected void executeCommand(String[] args) {
-		if (commandMap.containsKey(args[0])) {
+	protected void executeCommand(Command command) {
+		if (commandMap.containsKey(command.getType())) {
 			System.out.println(CommandHandler.NONE.getClass());
 			
 			
 			//A CommandHandler must use a type that extends Controller
 			//That means casting to CommandHandler<Contoller> is always okay
-			@SuppressWarnings("unchecked")
-			CommandHandler<Controller> handler = (CommandHandler<Controller>) commandMap.get(args[0]);
+
+			CommandHandler handler = commandMap.get(command.getType());
 			
-			handler.execute(this, args);
+			handler.execute(this, command);
 		}
 	}
 	
@@ -61,13 +61,13 @@ public abstract class Controller implements Runnable {
 		running = true;
 		while (running) {
 			try {
-				String command = commandQueue.take();
-				String[] args = command.split(" ");
+				Command command = commandQueue.take();
+				//String[] args = command.split(" ");
 				
 				if (childController == null) {
-					executeCommand(args);
+					executeCommand(command);
 				} else if (childController.isRunning()) {
-					childController.executeCommand(args);
+					childController.executeCommand(command);
 					if (!childController.isRunning()) {
 						childController.destroy();
 						childController = null;
@@ -106,8 +106,10 @@ public abstract class Controller implements Runnable {
 		childController.init();
 	}
 
+	
+	//TODO extend command functionality
 	public synchronized void addCommand(String command) {
-		commandQueue.add(command);
+		commandQueue.add(new Command(command));
 	}
 	
 	protected void print(String[] args) {

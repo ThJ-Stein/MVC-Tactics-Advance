@@ -8,11 +8,15 @@ import view.View;
 public class App {
 	private Thread controllerThread;
 	private Thread viewThread;
+	
+	private Model model;
+	private Controller controller;
+	private View view;
 
 	public App() {
-		Model model = new Model();
-		Controller controller = new DebugController(model);
-		View view = new View();
+		model = new Model();
+		controller = new DebugController(model);
+		view = new View();
 		
 		controller.setView(view);
 		view.setController(controller);
